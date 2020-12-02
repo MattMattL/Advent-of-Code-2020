@@ -19,14 +19,9 @@ bool isValidForQ1(int lower, int upper, char target, string password)
 	return (lower <= valid) && (valid <= upper);
 }
 
-bool isValidForQ2(int lower, int upper, char target, string password)
+bool isValidForQ2(int lower, int upper, char target, string str)
 {
-	int count = 0;
-
-	count += (password.at(lower - 1) == target)? 1 : 0;
-	count += (password.at(upper - 1) == target)? 1 : 0;
-
-	return count == 1;
+	return (str.at(lower - 1) == target) ^ (str.at(upper - 1) == target);
 }
 
 void countValidSets()

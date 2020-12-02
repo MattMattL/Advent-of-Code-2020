@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool isValidQ1(int lower, int upper, char target, string password)
+bool isValidForQ1(int lower, int upper, char target, string password)
 {
 	// count the number of give character
 	int valid = 0;
@@ -19,7 +19,7 @@ bool isValidQ1(int lower, int upper, char target, string password)
 	return (lower <= valid) && (valid <= upper);
 }
 
-bool isValidQ2(int lower, int upper, char target, string password)
+bool isValidForQ2(int lower, int upper, char target, string password)
 {
 	int count = 0;
 
@@ -46,10 +46,10 @@ void countValidSets()
 		file >> lower >> rubbish >> upper >> ch >> rubbish >> password;
 
 		// count for Q1
-		// count += isValidQ1(lower, upper, ch, password)? 1 : 0;
+		// count += isValidForQ1(lower, upper, ch, password)? 1 : 0;
 
 		// count for Q2
-		count += isValidQ2(lower, upper, ch, password)? 1 : 0;		
+		count += isValidForQ2(lower, upper, ch, password)? 1 : 0;		
 	}
 
 	cout << count << endl;

@@ -8,19 +8,22 @@ using namespace std;
 
 bool isValidForQ1(int lower, int upper, char target, string password)
 {
-	// count the number of give character
+	// count the number of same characters as target
 	int valid = 0;
+
 	for(char ch : password)
 	{
 		if(ch == target)
 			valid++;
 	}
 
+	// true if it's in range
 	return (lower <= valid) && (valid <= upper);
 }
 
 bool isValidForQ2(int lower, int upper, char target, string str)
 {
+	// true of either matches with the target chararacter
 	return (str.at(lower - 1) == target) ^ (str.at(upper - 1) == target);
 }
 

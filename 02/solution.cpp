@@ -43,11 +43,13 @@ void countValidSets()
 		// read one line from the file
 		file >> lower >> rubbish >> upper >> ch >> rubbish >> password;
 
-		// count for Q1
-		// count += isValidForQ1(lower, upper, ch, password)? 1 : 0;
+		// Question 1
+		// if(isValidForQ1(lower, upper, ch, password))
+		// 	count++;
 
-		// count for Q2
-		count += isValidForQ2(lower, upper, ch, password)? 1 : 0;		
+		// Question 2
+		if(isValidForQ2(lower, upper, ch, password))
+			count++;
 	}
 
 	cout << count << endl;

@@ -7,35 +7,33 @@ using namespace std;
 
 void readFromFile()
 {
-	// open an external file
-	ifstream file;
+	int value;
 
-	file.open("./data.txt");
-
-	if(!file.is_open())
-	{
-		cout << "no such external file found" << endl;
-		return 0;
-	}
-
-	// read from file until reach the end
-	int buffer;
-
-	file >> buffer;
-	cout << buffer << endl;
+	file >> value;
+	cout << value << endl;
 
 	while(!file.eof())
 	{
-		file >> buffer;
+		file >> value;
 
 		if(file.eof())
 			break;
 		
-		cout << buffer << endl;
+		cout << value << endl;
 	}
+}
 
-	// post init
-	file.close();
+// for files with a single value per line
+void readFromFile_()
+{
+	string buffer;
+	int value;
+
+	while(getline(file, buffer))
+	{
+	    value = stoi(buffer);
+	    cout << value << endl;
+	}
 }
 
 int main()

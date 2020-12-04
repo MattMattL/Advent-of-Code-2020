@@ -15,12 +15,6 @@ void loadData()
 	ifstream file;
 	file.open("./data.txt");
 
-	if(!file)
-	{
-		cout << "no external file found" << endl;
-		exit(-1);
-	}
-
 	for(int i=0; i<ROWS; i++)
 	{
 		string column;
@@ -30,16 +24,6 @@ void loadData()
 	}
 
 	file.close();
-}
-
-int* index(int row, int col)
-{
-	int *arr = new int[2];
-
-	arr[0] = row % ROWS;
-	arr[1] = col % COLS;
-
-	return arr;
 }
 
 int countOverlaps(int dRow, int dCol)
@@ -66,9 +50,7 @@ int main()
 	cout << "Q1: trees = " << countOverlaps(1, 3) << endl;
 
 	// Question 2
-	int product = 1;
-
-	product *= countOverlaps(1, 1);
+	int product = countOverlaps(1, 1);
 	product *= countOverlaps(1, 3);
 	product *= countOverlaps(1, 5);
 	product *= countOverlaps(1, 7);

@@ -31,8 +31,8 @@ void readFromFile_()
 
 	while(getline(file, buffer))
 	{
-	    value = stoi(buffer);
-	    cout << value << endl;
+		value = stoi(buffer);
+		cout << value << endl;
 	}
 }
 

@@ -2,61 +2,31 @@
 #include <fstream>
 #include <queue>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
+int getIndex(string str, int iMin, int iMax, bool returnLower, char skipLowerHalf)
+{
+	int lower = 0, upper = pow(2, iMax - iMin) - 1;
+
+	for(int i=iMin; i<iMax; i++)
+	{
+		if(str[i] == skipLowerHalf)
+			lower = (lower + upper + 1) / 2;
+		else
+			upper = (lower + upper - 1) / 2;
+	}
+
+	return (returnLower)? lower : upper;
+}
+
 int getSeatID(string str)
 {
-	// get row
-	int lower = 0, upper = 127;
-
-	for(int i=0; i<7; i++)
-	{
-		if(str[i] == 'B')
-			lower = (lower + upper + 1) / 2;
-		else
-			upper = (lower + upper - 1) / 2;
-	}
-
-	int tempID = lower * 8;
-
-	// get column
-	lower = 0, upper = 7;
-
-	for(int i=7; i<10; i++)
-	{
-		if(str[i] == 'R')
-			lower = (lower + upper + 1) / 2;
-		else
-			upper = (lower + upper - 1) / 2;
-	}
-
-	return tempID + upper;
+	return getIndex(str, 0, 7, true, 'B') * 8 + getIndex(str, 7, 10, false, 'R');
 }
 
-void getMaxID()
-{
-	ifstream file;
-	file.open("./data.txt");
-
-	int maxID = 0;
-	string data;
-
-	while(getline(file, data))
-	{
-		// get an ID and save if max
-		int seatID = getSeatID(data);
-
-		if(seatID > maxID)
-			maxID = seatID;
-	}
-
-	cout << "Highest ID:" << maxID << endl;
-
-	file.close();
-}
-
-void getConsecutiveID()
+int main()
 {
 	// save ID's in a priority queue
 	ifstream file;
@@ -70,36 +40,20 @@ void getConsecutiveID()
 
 	file.close();
 
-	// find two consecutive ID's with difference = 1
-	int comp1, comp2;
+	// Part 1
+	cout << "Highest ID: " << seatIDs.top() << endl;
 
-	comp1 = seatIDs.top();
+	// Part 2
+	int comp = seatIDs.top();
 	seatIDs.pop();
 
-	comp2 = seatIDs.top();
-	seatIDs.pop();
-
-	while(!seatIDs.empty())
+	while(comp - seatIDs.top() != 2 && !seatIDs.empty())
 	{
-		// Part 2 result
-		if(comp1 - comp2 == 2)
-		{
-			cout << "My ID: " << comp1 - 1 << endl;
-			return;
-		}
-
-		// shift for next round
-		comp1 = comp2;
-		comp2 = seatIDs.top();
+		comp = seatIDs.top();
 		seatIDs.pop();
 	}
-}
 
-int main()
-{
-	getMaxID();
-
-	getConsecutiveID();
+	cout << "My ID: " << comp - 1 << endl;
 
 	return 0;
 }

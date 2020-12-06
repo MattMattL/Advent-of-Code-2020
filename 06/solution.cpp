@@ -4,21 +4,7 @@
 
 using namespace std;
 
-int numValidForQ1(int arr[])
-{
-	int count = 0;
-
-	for(int i=0; i<26; i++)
-	{
-		if(arr[i] > 0)
-			count++;
-	}
-
-
-	return count;
-}
-
-int numValidForQ2(int arr[], int num)
+int countValidAnswers(int arr[], int num)
 {
 	int count = 0;
 
@@ -31,7 +17,7 @@ int numValidForQ2(int arr[], int num)
 	return count;
 }
 
-void loadData()
+int main()
 {
 	ifstream file;
 	file.open("./data.txt");
@@ -55,8 +41,8 @@ void loadData()
 		else
 		{
 			// add to total sum
-			sum1 += numValidForQ1(alphabet);
-			sum2 += numValidForQ2(alphabet, peopInGroup);
+			sum1 += countValidAnswers(alphabet, 1);
+			sum2 += countValidAnswers(alphabet, peopInGroup);
 
 			// initialise for the next group
 			for(int i=0; i<26; i++)
@@ -70,11 +56,6 @@ void loadData()
 	cout << sum2 << endl;
 
 	file.close();
-}
-
-int main()
-{
-	loadData();
 
 	return 0;
 }

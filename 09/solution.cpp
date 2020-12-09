@@ -22,10 +22,10 @@ void loadData()
 	file.close();
 }
 
-void sort(double *arr)
+void sort(double *arr, int size)
 {
 	// O(N^2) only for implementation, could be replaced with NlogN
-	for(int i=PREAMBLE-2; i>=0; i--)
+	for(int i=size-2; i>=0; i--)
 	{
 		for(int j=0; j<=i; j++)
 		{
@@ -39,6 +39,46 @@ void sort(double *arr)
 	}
 }
 
+double checkPartialSum(double target)
+{
+	int lower = 0, upper = 1;
+	double sum = data.at(0) + data.at(1);
+
+	// calculate partial sum
+	while(upper < data.size())
+	{
+		if(sum < target)
+		{
+			upper++;
+			sum += data.at(upper);
+		}
+		else if(sum > target)
+		{
+			sum -= data.at(lower);
+			lower++;
+
+			// keep 'upper - lower = 1'
+			if(lower >= upper)
+			{
+				upper++;
+				sum += data.at(upper);
+			}
+		}
+		else // (sum == target)
+		{
+			int size = upper - lower + 1;
+			double *arr = new double[size];
+
+			memcpy(arr, &data.at(lower), size * sizeof(double));
+			sort(arr, size);
+
+			return arr[0] + arr[size - 1];
+		}
+	}
+
+	return 0;
+}
+
 void checkTwoSum()
 {
 	for(int i=0; i<data.size() - PREAMBLE; i++)
@@ -47,7 +87,7 @@ void checkTwoSum()
 		double preambles[PREAMBLE];
 
 		memcpy(preambles, &data.at(i), PREAMBLE * sizeof(double));
-		sort(preambles);
+		sort(preambles, PREAMBLE);
 
 		// find two sum
 		int min = 0, max = PREAMBLE - 1;
@@ -69,8 +109,14 @@ void checkTwoSum()
 		// check conditions
 		if(sum != target)
 		{
-			// Question 1 answer
+			// Part 1 answer
 			printf("%.0f\n", target);
+
+			memcpy(preambles, &data.at(i), PREAMBLE * sizeof(double));
+			
+			// Part 2 answer
+			printf("%.0f\n", checkPartialSum(target));
+
 			return;
 		}
 	}
@@ -80,7 +126,7 @@ int main()
 {
 	loadData();
 
-	// Q1
+	// Q1 and Q2
 	checkTwoSum();
 
 	return 0;

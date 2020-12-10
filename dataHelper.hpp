@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 
 #define ASCENDING 1
@@ -14,10 +15,9 @@ template <class T>
 class Data
 {
 private:
-	T *data;
-	int length;
+	vector<T> data;
 
-	T terminator;
+	T terminator; // Deprecated
 
 	void barf(string, string);
 
@@ -54,7 +54,7 @@ Data<T>::Data()
 template <class T>
 Data<T>::~Data()
 {
-	delete(data);
+
 }
 
 template <class T>
@@ -77,30 +77,31 @@ void Data<T>::setTerminator(T terminatorIn)
 template <class T>
 void Data<T>::read(string location)
 {
-	// count the number of data
 	ifstream file;
 	file.open(location);
 
 	if(!file)
-	{
-		cout << "[error] wrong file path" << endl;
-		return;
-	}
+		barf("read", "no such external file found");
 
-	length = 0;
+	// count the number of data
 	string buffer;
+	int length = 0;
 
 	while(getline(file, buffer))
 		length++;
 
 	file.close();
 
-	// load data
+	// copy from file
 	file.open(location);
-	data = new T[length];
 
 	for(int i=0; i<length; i++)
-		file >> data[i];
+	{
+		T temp;
+
+		file >> temp;
+		data.push_back(temp);
+	}
 
 	file.close();
 }
@@ -108,25 +109,25 @@ void Data<T>::read(string location)
 template <class T>
 T Data<T>::at(int index)
 {
-	if(index < 0 || index >= length)
+	if(index < 0 || index >= size())
 		barf("at", "index out of boundary");
 
-	return data[index];
+	return data.at(index);
 }
 
 template <class T>
 void Data<T>::set(int index, T value)
 {
-	if(index < 0 || index >= length)
+	if(index < 0 || index >= size())
 		barf("set", "index out of boundary");
 
-	data[index] = value;
+	data.at(index) = value;
 }
 
 template <class T>
 int Data<T>::size()
 {
-	return length;
+	return data.size();
 }
 
 template <class T>
@@ -140,19 +141,19 @@ template <class T>
 void Data<T>::sort(int mode)
 {
 	// O(N^2), but used only for implementation.
-	for(int i=length-2; i>=0; i--)
+	for(int i=size()-2; i>=0; i--)
 	{
 		for(int j=0; j<=i; j++)
 		{
 			switch(mode)
 			{
 				case DESCENDING:
-					if(data[j] < data[j+1])
+					if(data.at(j) < data.at(j+1))
 						swap(j, j + 1);
 					break;
 
 				case ASCENDING:
-					if(data[j] > data[j+1])
+					if(data.at(j) > data.at(j+1))
 						swap(j, j + 1);
 					break;
 
@@ -167,20 +168,20 @@ void Data<T>::sort(int mode)
 template <class T>
 void Data<T>::swap(int i, int j)
 {
-	if(i < 0 || i >= length)
+	if(i < 0 || i >= size())
 		barf("swap", "first index out of boundary");
-	else if(j < 0 || j >= length)
+	else if(j < 0 || j >= size())
 		barf("swap", "second index out of boundary");
 
-	T temp = data[i];
-	data[i] = data[j];
-	data[j] = temp;
+	T temp = data.at(i);
+	data.at(i) = data.at(j);
+	data.at(j) = temp;
 }
 
 template <class T>
 void Data<T>::print()
 {
-	for(int i=0; i<length; i++)
+	for(int i=0; i<size(); i++)
 		cout << data[i] << endl;
 
 	cout << endl;

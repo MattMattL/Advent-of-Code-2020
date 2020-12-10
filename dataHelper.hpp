@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <memory.h>
 
 #define ASCENDING 1
 #define DESCENDING 2
@@ -41,6 +42,7 @@ public:
 	void sort();
 	void sort(int);
 	void swap(int, int);
+	T* toArray();
 	void print();
 };
 
@@ -190,6 +192,18 @@ void Data<T>::swap(int i, int j)
 	T temp = data.at(i);
 	data.at(i) = data.at(j);
 	data.at(j) = temp;
+}
+
+template <class T>
+T* Data<T>::toArray()
+{
+	// arr returned needs to be manually deleted
+	// using the delete command
+	T *arr = new T[size()];
+
+	memcpy(arr, &data.at(0), size() * sizeof(T*));
+
+	return arr;
 }
 
 template <class T>

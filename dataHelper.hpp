@@ -30,7 +30,7 @@ public:
 	void setTerminator(T); // Deprecated
 	void read(string);
 
-	// Setters & Getters
+	// Data Manipulation
 	T at(int);
 	void set(int, T);
 	void add_front(T);

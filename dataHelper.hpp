@@ -22,8 +22,12 @@ private:
 	void barf(string, string);
 
 public:
+
+	Data();
+	~Data();
+
 	// File IO
-	void setTerminator(T);
+	void setTerminator(T); // Deprecated
 	void read(string);
 
 	// Setters & Getters
@@ -42,6 +46,18 @@ public:
 /* Implementations */
 
 template <class T>
+Data<T>::Data()
+{
+
+}
+
+template <class T>
+Data<T>::~Data()
+{
+	delete(data);
+}
+
+template <class T>
 void Data<T>::barf(string fcn, string msg)
 {
 	cout << "[error] ";
@@ -51,6 +67,7 @@ void Data<T>::barf(string fcn, string msg)
 	exit(-1);
 }
 
+// Deprecated
 template <class T>
 void Data<T>::setTerminator(T terminatorIn)
 {
@@ -58,30 +75,28 @@ void Data<T>::setTerminator(T terminatorIn)
 }
 
 template <class T>
-void Data<T>::read(string filePath)
+void Data<T>::read(string location)
 {
-	ifstream file;
-
 	// count the number of data
-	file.open(filePath);
+	ifstream file;
+	file.open(location);
 
 	if(!file)
-		barf("read", "no external file found");
-
-	T buffer = 0;
-	length = -1;
-
-	while(buffer != terminator)
 	{
-		length++;
-		file >> buffer;
+		cout << "[error] wrong file path" << endl;
+		return;
 	}
+
+	length = 0;
+	string buffer;
+
+	while(getline(file, buffer))
+		length++;
 
 	file.close();
 
 	// load data
-	file.open(filePath);
-
+	file.open(location);
 	data = new T[length];
 
 	for(int i=0; i<length; i++)

@@ -33,6 +33,8 @@ public:
 	// Setters & Getters
 	T at(int);
 	void set(int, T);
+	void add_front(T);
+	void add_back(T);
 	int size();
 
 	// Utilities
@@ -135,6 +137,18 @@ void Data<T>::sort()
 {
 	// default sorting option
 	sort(ASCENDING);
+}
+
+template <class T>
+void Data<T>::add_front(T value)
+{
+	data.insert(data.begin(), value);
+}
+
+template <class T>
+void Data<T>::add_back(T value)
+{
+	data.push_back(value);
 }
 
 template <class T>

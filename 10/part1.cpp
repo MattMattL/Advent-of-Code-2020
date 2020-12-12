@@ -8,10 +8,10 @@ Data<int> data;
 
 void countDifferences()
 {
-	int diff_1 = 0, diff_3 = 0;
-
 	data.add_front(0);
 	data.add_back(data.at(data.size() - 1) + 3);
+
+	int diff_1 = 0, diff_3 = 0;
 
 	for(int i=0; i<data.size() - 1; i++)
 	{

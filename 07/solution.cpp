@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "../time.hpp"
 
 using namespace std;
 
@@ -69,43 +70,35 @@ int indexOf(string key)
 			return i;
 	}
 
-	cout << "[error] <indexOf> vector contains no such element" << endl;
-	return -1;
+	exit(-1);
 }
 
-bool searchShinyGold(string colour)
+bool flagShinyGold(string colour)
 {
 	Bag *bag = &bags.at(indexOf(colour));
 
-	// return if already been checked
 	if(bag->hasShinyGold)
 		return true;
-
-	bool flag = false;
 
 	for(int i=0; i<bag->size; i++)
 	{
 		Bag subBag = bag->subBags.at(i);
 
-		// this branch contains shiny gold
 		if(subBag.name == "shiny gold")
 		{
+			// this bag contains shininy gold
 			bag->hasShinyGold = true;
 			return true;
 		}
 
-		// search recursively
-		flag |= searchShinyGold(bag->subBags.at(i).name);
-	}
-
-	// flag and return
-	if(flag)
-	{
-		bag->hasShinyGold = true;
-		return true;
+		if(flagShinyGold(bag->subBags.at(i).name))
+		{
+			// this branch contains shiny gold
+			bag->hasShinyGold = true;
+			return true;
+		}
 	}
 	
-	// this branch contains no shiny gold
 	return false;
 }
 
@@ -114,7 +107,7 @@ void countShinyGold()
 	int count = 0;
 
 	for(int i=0; i<bags.size(); i++)
-		searchShinyGold(bags.at(i).name);
+		flagShinyGold(bags.at(i).name);
 
 	for(int i=0; i<bags.size(); i++)
 	{

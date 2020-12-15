@@ -195,7 +195,7 @@ void Matrix<T>::print()
 	for(int i=0; i<ROWS; i++)
 	{
 		for(int j=0; j<COLS; j++)
-			printf("%4.0f ", (double)get(i, j));
+			printf("%2.0f ", (double)get(i, j));
 
 		printf("\n");
 	}

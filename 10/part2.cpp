@@ -55,7 +55,6 @@ void calculateSeries(Matrix<double> A)
 	B = B + I;
 
 	while(!isZero(A))
-	// for(int i=0; i<10; i++)
 	{
 		B = B + A;
 		A = A * A;

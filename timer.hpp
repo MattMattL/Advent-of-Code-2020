@@ -23,7 +23,7 @@ public:
 		timePassed = clock() - tick;
 	}
 
-	void print()
+	void printExecutionTime()
 	{
 		double executionTime = timePassed / CLOCKS_PER_SEC;
 		printf("\nexecution time : %.4f s\n", executionTime);
